@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Classic AI Pac-Man Poster</title>
+<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Outfit:wght@400;600&display=swap" rel="stylesheet">
+<style>
+    :root {
+        --bg-color: #000000;
+        --maze-blue: #1919A6; /* Classic Arcade Blue */
+        --pac-yellow: #FFFF00;
+        --ghost-red: #FF0000;
+        --ghost-pink: #FFB8FF;
+        --ghost-cyan: #00FFFF;
+        --ghost-orange: #FFB852;
+        --pellet: #FFCCAA;
+        --text-main: #FFFFFF;
+        --box-bg: #000000;
+    }
+
+    @page {
+        size: letter portrait;
+        margin: 0; /* Remove default browser page margins entirely to prevent overflow overflow */
+    }
+
+    body {
+        font-family: 'Outfit', sans-serif;
+        background-color: #111;
+        color: var(--text-main);
+        margin: 0;
+        padding: 0;
+        display: flex;
+        justify-content: center;
+        align-items: flex-start;
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+        color-adjust: exact !important;
+    }
+
+    /* Print specific scaling */
+    @media print {
+        body { background: #000; }
+        .poster {
+            box-shadow: none !important;
+            border-radius: 0 !important;
+            margin: auto;
+            page-break-after: avoid;
+            page-break-before: avoid;
+        }
+    }
+
+    .poster {
+        width: 750px;
+        height: 980px; /* Safe size well under max bounds */
+        background: var(--bg-color);
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr;
+        grid-template-rows: auto auto auto auto;
+        gap: 10px;
+        border: 4px solid var(--maze-blue);
+        padding: 15px;
+        box-shadow: 0 0 30px rgba(25, 25, 166, 0.5);
+        box-sizing: border-box;
+        margin: 20px 0;
+    }
+
+    /* Generic Panel Styling */
+    .glass-panel {
+        background: var(--box-bg);
+        border: 2px solid var(--maze-blue);
+        border-radius: 4px;
+        padding: 10px;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .glass-panel::before {
+        content: ''; position: absolute;
+        top: 2px; left: 2px; width: 6px; height: 6px;
+        border-top: 2px solid var(--maze-blue);
+        border-left: 2px solid var(--maze-blue);
+    }
+    .glass-panel::after {
+        content: ''; position: absolute;
+        bottom: 2px; right: 2px; width: 6px; height: 6px;
+        border-bottom: 2px solid var(--maze-blue);
+        border-right: 2px solid var(--maze-blue);
+    }
+
+    h2.panel-title {
+        font-family: 'Press Start 2P', cursive;
+        color: var(--ghost-cyan);
+        font-size: 0.65rem;
+        margin-top: 0;
+        line-height: 1.4;
+        text-shadow: 2px 2px 0px #000;
+        border-bottom: 1px dashed var(--maze-blue);
+        padding-bottom: 6px;
+        margin-bottom: 10px;
+    }
+
+    ul.tech-list {
+        list-style: none; padding: 0; margin: 0;
+    }
+    ul.tech-list li {
+        margin-bottom: 6px;
+        padding-left: 15px;
+        position: relative;
+        font-size: 0.68rem;
+        line-height: 1.3;
+        color: var(--text-main);
+    }
+    ul.tech-list li::before {
+        content: '■';
+        position: absolute;
+        left: 0;
+        color: var(--pellet);
+        font-size: 0.7rem;
+        top: 1px;
+    }
+
+    .highlight {
+        color: var(--pac-yellow);
+        font-family: 'Press Start 2P', cursive;
+        font-size: 0.5rem;
+        line-height: 1.4;
+    }
+
+    /* Specific Grid Areas */
+    .header-area {
+        grid-column: span 3;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        border: 2px solid var(--maze-blue);
+        padding: 15px;
+        background: #000;
+        text-align: center;
+    }
+
+    .header-area h1 {
+        font-family: 'Press Start 2P', cursive;
+        font-size: 2.1rem;
+        margin: 0;
+        color: var(--pac-yellow);
+        line-height: 1;
+        text-shadow: 3px 3px 0px var(--ghost-red);
+    }
+    .header-area h3 {
+        font-family: 'Press Start 2P', cursive;
+        color: var(--text-main);
+        font-size: 0.65rem;
+        margin-top: 10px;
+    }
+
+    /* Pipeline Area */
+    .pipeline-area {
+        grid-column: span 3;
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+        padding: 10px;
+    }
+
+    .pipe-container {
+        display: flex; gap: 10px; width: 100%; margin-top: 5px;
+    }
+
+    .pipe-step {
+        flex: 1;
+        background: #000;
+        border: 1px solid var(--maze-blue);
+        padding: 10px;
+        border-radius: 4px;
+        text-align: center;
+    }
+    
+    .pipe-step h4 {
+        color: var(--ghost-pink);
+        font-family: 'Press Start 2P', cursive;
+        font-size: 0.5rem;
+        margin-top: 0;
+        line-height: 1.4;
+        margin-bottom: 8px;
+    }
+    
+    .pipe-step p {
+        font-size: 0.65rem;
+        color: var(--text-main);
+        line-height: 1.3;
+        margin-bottom: 0;
+        text-align: left;
+    }
+
+    /* Columns Section */
+    .col-feature {
+        grid-column: span 1;
+    }
+
+    .threat-level {
+        display: inline-block;
+        background: #000;
+        color: var(--ghost-red);
+        padding: 4px 6px;
+        font-family: 'Press Start 2P', cursive;
+        font-size: 0.45rem;
+        border: 1px dotted var(--ghost-red);
+        margin-bottom: 8px;
+    }
+
+    /* Bottom Architecture */
+    .architecture-area {
+        grid-column: span 3;
+        display: flex;
+        gap: 15px;
+    }
+    .arch-panel {
+        flex: 1;
+    }
+
+    .pixel-img {
+        width: 35px;
+        height: 35px;
+        float: right;
+        margin-left: 10px;
+        border: 1px solid var(--maze-blue);
+        image-rendering: pixelated;
+    }
+
+    .huge-img {
+        width: 100%;
+        height: 45px;
+        object-fit: cover;
+        border: 1px solid var(--maze-blue);
+        margin-bottom: 8px;
+        image-rendering: pixelated;
+    }
+
+</style>
+</head>
+<body>
+
+<div class="poster">
+
+    <!-- TOP SECTION -->
+    <div class="header-area">
+        <h1>AI PAC-MAN</h1>
+        <h3>COGNITIVE PATHFINDING SIMULATION</h3>
+    </div>
+
+    <!-- PIPELINE AREA (STEPS IN SYSTEM) -->
+    <div class="glass-panel pipeline-area">
+        <h2 class="panel-title" style="border:none; margin:0; padding-bottom: 0;">GAME ENGINE PIPELINE</h2>
+
+        <div class="pipe-container">
+            <div class="pipe-step">
+                <img src="static/images/retro_maze.png" class="huge-img" alt="Maze">
+                <h4>[01] PROC_GEN MAP</h4>
+                <p>Generates a strict 45x25 boolean grid. Carves out continuous loops and a centralized Ghost House sanctuary dynamically.</p>
+            </div>
+            <div class="pipe-step">
+                <img src="static/images/retro_pacman.png" class="huge-img" alt="Pac">
+                <h4>[02] AI HEURISTIC</h4>
+                <p>WebAssembly evaluates spatial arrays, matching graph nodes through mathematically proven heuristic logic formulas natively.</p>
+            </div>
+            <div class="pipe-step">
+                <img src="static/images/retro_ghost.png" class="huge-img" alt="Ghost">
+                <h4>[03] ENGINE LOOP</h4>
+                <p>Entities traverse the grid utilizing a decoupled 180ms/260ms tick rate framework ensuring independent speed velocities.</p>
+            </div>
+            <div class="pipe-step">
+                <img src="static/images/retro_maze.png" class="huge-img" alt="Grid" style="filter: hue-rotate(90deg);">
+                <h4>[04] ANALYZE</h4>
+                <p>Identifies loop vulnerabilities, graph efficiency, and tracks real-time Manhattan coordinates continuously.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- MIDDLE 3 COLUMNS -->
+    <div class="glass-panel col-feature">
+        <h2 class="panel-title">SYSTEM BENEFITS</h2>
+        <ul class="tech-list" style="margin-top: 10px;">
+            <li>Visually dissects complicated discrete mathematics operations.</li>
+            <li>Identifies infinite loops and continuous pathfinding choke-points.</li>
+            <li>Portrays the extreme efficiency of A* logic over unweighted mapping.</li>
+            <li>Directly supports advanced computational algorithm education.</li>
+        </ul>
+    </div>
+
+    <div class="glass-panel col-feature">
+        <img src="static/images/retro_ghost.png" class="pixel-img" alt="Ghost">
+        <h2 class="panel-title">COMPUTATIONAL IMPACT</h2>
+        <div class="threat-level">WARNING: GRID COMPLEXITY</div>
+        <ul class="tech-list">
+            <li>Search latency scales directly relative to maze expansion.</li>
+            <li>Lack of backtracking depth bounds traps entities permanently.</li>
+            <li>Power configurations forcefully alter AI target targeting parameters.</li>
+        </ul>
+    </div>
+
+    <!-- Bottom Left Features -->
+    <div class="glass-panel col-feature">
+        <img src="static/images/retro_pacman.png" class="pixel-img" alt="Pac">
+        <h2 class="panel-title">KEY SYSTEM FEATURES</h2>
+        <ul class="tech-list">
+            <li>Dynamic pathfinding across procedurally generated walls.</li>
+            <li>Real-time WebAssembly continuous rendering engine.</li>
+            <li>Target reallocation triggered instantly by Pellet consumption.</li>
+            <li>Completely isolated virtual environment powered by Python.</li>
+        </ul>
+    </div>
+
+    <!-- Bottom Architecture spanning 3 cols -->
+    <div class="glass-panel architecture-area" style="grid-column: span 3;">
+        
+        <div class="arch-panel">
+            <h2 class="panel-title">ALGORITHMS USED</h2>
+            <ul class="tech-list" style="margin-top: 10px;">
+                <li><span class="highlight">A-STAR (A*):</span> Complete optimization. Computes F=G+H.</li>
+                <li><span class="highlight" style="color:var(--ghost-orange);">BFS:</span> Breadth-First exploration guaranteeing exact shortest paths.</li>
+                <li><span class="highlight" style="color:var(--ghost-red);">GREEDY:</span> Hyper-aggressive proximity tracking based on Manhattan parameters.</li>
+                <li><span class="highlight" style="color:var(--ghost-cyan);">DFS:</span> Depth-First dives causing highly erratic routing behavior.</li>
+            </ul>
+        </div>
+        
+        <div class="arch-panel">
+            <h2 class="panel-title">SUB-ROUTINES</h2>
+            <ul class="tech-list" style="margin-top: 10px;">
+                <li><span class="highlight">FLEE METRICS:</span> Triggers massive graph recalculations to isolate furthest geographic tile from predator.</li>
+                <li><span class="highlight" style="color:var(--ghost-pink);">RANDOM WALK:</span> The erratic fallback. Executes dice rolls crossing intersections ignoring proximity parameters.</li>
+                <li><span class="highlight">MANHATTAN DISTANCE:</span> Core geometry math driving heuristic decision making across orthogonal boundaries.</li>
+            </ul>
+        </div>
+        
+    </div>
+
+</div>
+
+</body>
+</html>

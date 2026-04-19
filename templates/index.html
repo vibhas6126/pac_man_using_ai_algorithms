@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Pac-Man Web App</title>
+    <!-- Modern high-end font and arcade font -->
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;500;700&family=Press+Start+2P&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/static/css/style.css">
+    
+    <!-- PyScript core loaders -->
+    <link rel="stylesheet" href="https://pyscript.net/releases/2023.11.1/core.css" />
+    <script type="module" src="https://pyscript.net/releases/2023.11.1/core.js"></script>
+</head>
+<body>
+    <div id="app-container">
+        
+        <!-- Startup Modal / Menu -->
+        <main id="start-screen" class="glass-panel">
+            <h1 class="neon-title">PAC-MAN AI</h1>
+            <p class="subtitle">Select the pathfinding algorithm. All ghosts will execute it.</p>
+            
+            <div class="algo-selection">
+                <button class="algo-btn" data-algo="bfs">
+                    <span class="algo-title">BFS</span>
+                    <span class="algo-desc">Shortest Path</span>
+                </button>
+                <button class="algo-btn" data-algo="dfs">
+                    <span class="algo-title">DFS</span>
+                    <span class="algo-desc">Erratic Deep Path</span>
+                </button>
+                <button class="algo-btn selected" data-algo="astar">
+                    <span class="algo-title">A*</span>
+                    <span class="algo-desc">Heuristic Optimal</span>
+                </button>
+                <button class="algo-btn" data-algo="greedy">
+                    <span class="algo-title">Greedy</span>
+                    <span class="algo-desc">Direct Pursuit</span>
+                </button>
+                <button class="algo-btn" data-algo="random">
+                    <span class="algo-title">Random</span>
+                    <span class="algo-desc">Chaotic</span>
+                </button>
+            </div>
+            
+            <button id="start-btn" class="glow-btn">INITIALIZE SIMULATION</button>
+        </main>
+
+        <!-- Actual Game Interface -->
+        <section id="game-ui" class="hidden">
+            <header>
+                <div class="stat-box">SCORE <span id="score-display" class="neon-text-blue">0</span></div>
+                <div class="stat-box">MODE <span id="current-algo" class="neon-text-pink">A*</span></div>
+            </header>
+            
+            <div id="game-wrapper">
+                <!-- Canvas dimension styling will adapt to screen size but we start with a large resolution -->
+                <canvas id="gameCanvas" width="900" height="500"></canvas>
+                
+                <div id="game-over-modal" class="glass-panel hidden overlay-panel">
+                    <h2 id="end-title">Terminated</h2>
+                    <p>Final Score: <span id="final-score" class="neon-text-yellow">0</span></p>
+                    <button id="restart-btn" class="glow-btn">REBOOT</button>
+                </div>
+            </div>
+            
+            <footer>Use ARROW KEYS or W/A/S/D to move.</footer>
+        </section>
+
+    </div>
+
+    <!-- Inject the main python application logic -->
+    <script type="py" src="/static/js/frontend.py"></script>
+</body>
+</html>
